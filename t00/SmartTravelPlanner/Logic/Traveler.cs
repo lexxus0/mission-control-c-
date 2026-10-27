@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Travelling
 {
@@ -57,6 +58,23 @@ namespace Travelling
             return string.Join(" -> ", route);
         }
 
+        public List<string> GetRouteCities()
+        {
+            return new List<string>(route);
+        }
+
+        public int GetTotalDistance(CityGraph map)
+        {
+            int totalDistance = map.GetPathDistance(route);
+
+            if (totalDistance == -1)
+            {
+                throw new RouteNotFoundException("No route exists for the current path.");
+            }
+
+            return totalDistance;
+        }
+
         public override string ToString()
         {
             return "Traveler: " + name + " | " + "Location: " + location + " | " + "Route: " + GetRoute();
@@ -105,7 +123,7 @@ namespace Travelling
         {
             get
             {
-                    return route[index];
+                return route[index];
             }
         }
 
@@ -114,7 +132,7 @@ namespace Travelling
             if (obj is Traveler other)
             {
                 return name == other.name && location == other.location;
-            }   
+            }
             return false;
         }
 
@@ -134,7 +152,7 @@ namespace Travelling
                 return false;
             }
             return a.Equals(b);
-            }
+        }
 
         public static bool operator !=(Traveler a, Traveler b)
         {
@@ -168,7 +186,7 @@ namespace Travelling
             File.WriteAllText(filePath, json);
         }
 
-       public static Traveler LoadFromFile(string filePath)
+        public static Traveler LoadFromFile(string filePath)
         {
             if (!File.Exists(filePath))
             {
@@ -188,18 +206,18 @@ namespace Travelling
                 throw new FileLoadException("Invalid travel data");
             }
 
-            if (data == null || data.name == null || data.route == null)
+            if (data == null || data.Name == null || data.Route == null)
             {
                 throw new FileLoadException("Invalid travel data");
             }
 
-            Traveler traveler = new Traveler(data.name);
-            if (data.currentLocation != null)
+            Traveler traveler = new Traveler(data.Name);
+            if (data.CurrentLocation != null)
             {
-                traveler.SetLocation(data.currentLocation);
+                traveler.SetLocation(data.CurrentLocation);
             }
 
-            foreach (var city in data.route)
+            foreach (var city in data.Route)
             {
                 traveler.AddCity(city);
             }
@@ -207,7 +225,7 @@ namespace Travelling
             return traveler;
         }
 
-            public bool PlanRouteTo(string destination, CityGraph map)
+        public void PlanRouteTo(string destination, CityGraph map)
         {
             string start;
 
@@ -221,26 +239,33 @@ namespace Travelling
             }
             else
             {
-                Console.WriteLine("No route!");
-                return false;
+                throw new InvalidOperationException("Set the traveler's location first.");
             }
 
             if (string.IsNullOrWhiteSpace(destination))
             {
-                Console.WriteLine("No route!");
-                return false;
+                throw new ArgumentException("Destination cannot be empty.", nameof(destination));
             }
             else
             {
                 destination = CapitalizeWords(destination);
             }
 
+            if (!map.HasCity(start))
+            {
+                throw new ArgumentException($"Starting city '{start}' does not exist in the map.");
+            }
+
+            if (!map.HasCity(destination))
+            {
+                throw new ArgumentException($"Destination city '{destination}' does not exist in the map.");
+            }
+
             List<string> path = map.FindShortestPath(start, destination);
 
             if (path.Count == 0)
             {
-                Console.WriteLine("No route!");
-                return false;
+                throw new RouteNotFoundException($"No route exists between {start} and {destination}.");
             }
 
             ClearRoute();
@@ -248,14 +273,16 @@ namespace Travelling
             {
                 AddCity(city);
             }
-            return true;
         }
     }
 
     public class TravelerData
     {
-        public string name { get; set; }
-        public string currentLocation { get; set; }
-        public string[] route { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+        [JsonPropertyName("currentLocation")]
+        public string CurrentLocation { get; set; }
+        [JsonPropertyName("route")]
+        public string[] Route { get; set; }
     }
 }
