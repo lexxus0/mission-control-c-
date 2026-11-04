@@ -33,15 +33,16 @@
                                 <TextBlock Classes="title" Text="01 / TRAVELER"/>
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="label" Text="NAME"/>
-                                    <TextBox x:Name="NameTextBox" Watermark="Alice"/>
+                                    <TextBox x:Name="NameTextBox" PlaceholderText="Alice"/>
                                 </StackPanel>
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="label" Text="CURRENT LOCATION"/>
-                                    <TextBox x:Name="LocationTextBox" Watermark="Kyiv"/>
+                                    <TextBox x:Name="LocationTextBox" PlaceholderText="Kyiv"/>
                                 </StackPanel>
                                 <Button x:Name="CreateTravelerButton" Classes="primary"
                                         Content="CREATE TRAVELER"
-                                        HorizontalAlignment="Left"/>
+                                        HorizontalAlignment="Left"
+                                        Click="CreateTravelerButton_Click"/>
                             </StackPanel>
                         </Border>
 
@@ -50,7 +51,8 @@
                                 <TextBlock Classes="title" Text="02 / MAP"/>
                                 <StackPanel Orientation="Horizontal" Spacing="14">
                                     <Button x:Name="LoadMapButton" Classes="primary"
-                                            Content="LOAD MAP"/>
+                                            Content="LOAD MAP"
+                                            Click="LoadMapButton_Click"/>
                                     <TextBlock x:Name="MapStatusTextBlock" Classes="muted"
                                                Text="No map loaded"
                                                VerticalAlignment="Center"/>
@@ -63,11 +65,12 @@
                                 <TextBlock Classes="title" Text="03 / DESTINATION"/>
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="label" Text="CITY"/>
-                                    <TextBox x:Name="DestinationTextBox" Watermark="Berlin"/>
+                                    <TextBox x:Name="DestinationTextBox" PlaceholderText="Berlin"/>
                                 </StackPanel>
                                 <Button x:Name="PlanRouteButton" Classes="primary"
                                         Content="PLAN ROUTE"
-                                        HorizontalAlignment="Left"/>
+                                        HorizontalAlignment="Left"
+                                        Click="PlanRouteButton_Click"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -89,22 +92,22 @@
                                 <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
                                     <StackPanel Grid.Column="0" Spacing="4">
                                         <TextBlock Classes="label" Text="CITY A"/>
-                                        <TextBox x:Name="CityATextBox" Watermark="Kyiv"/>
+                                        <TextBox x:Name="CityATextBox" PlaceholderText="Kyiv"/>
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" Spacing="4">
                                         <TextBlock Classes="label" Text="CITY B"/>
-                                        <TextBox x:Name="CityBTextBox" Watermark="Lviv"/>
+                                        <TextBox x:Name="CityBTextBox" PlaceholderText="Lviv"/>
                                     </StackPanel>
                                     <StackPanel Grid.Column="2" Spacing="4">
                                         <TextBlock Classes="label" Text="KM"/>
-                                        <TextBox x:Name="DistanceTextBox" Watermark="540"/>
+                                        <TextBox x:Name="DistanceTextBox" PlaceholderText="540"/>
                                     </StackPanel>
                                 </Grid>
                                 <StackPanel Orientation="Horizontal" Spacing="12">
                                     <Button x:Name="AddConnectionButton" Classes="primary"
-                                            Content="ADD"/>
+                                            Content="ADD" Click="AddConnectionButton_Click"/>
                                     <Button x:Name="RemoveConnectionButton" Classes="secondary"
-                                            Content="REMOVE"/>
+                                            Content="REMOVE" Click="RemoveConnectionButton_Click"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
@@ -114,10 +117,10 @@
                 <Border BorderBrush="#3D8FC0" BorderThickness="0,1,0,0" Padding="0,18,0,0">
                     <StackPanel Orientation="Horizontal" Spacing="12"
                                 HorizontalAlignment="Right">
-                        <Button x:Name="SaveButton" Classes="primary" Content="SAVE"/>
-                        <Button x:Name="LoadButton" Classes="secondary" Content="LOAD"/>
-                        <Button x:Name="ClearRouteButton" Classes="secondary" Content="CLEAR ROUTE"/>
-                        <Button x:Name="ExitButton" Classes="danger" Content="EXIT"/>
+                        <Button x:Name="SaveButton" Classes="primary" Content="SAVE" Click="SaveButton_Click"/>
+                        <Button x:Name="LoadButton" Classes="secondary" Content="LOAD" Click="LoadButton_Click"/>
+                        <Button x:Name="ClearRouteButton" Classes="secondary" Content="CLEAR ROUTE" Click="ClearRouteButton_Click"/>
+                        <Button x:Name="ExitButton" Classes="danger" Content="EXIT" Click="ExitButton_Click"/>
                     </StackPanel>
                 </Border>
 
